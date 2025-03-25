@@ -204,7 +204,9 @@ async def manage_lists(event):
     await msg.delete()
 
 # Handler untuk tagall
-@@client.on(events.NewMessage(pattern=r"^/tagall(?: (.*))?"))
+running_tagall = {}
+
+@client.on(events.NewMessage(pattern=r"^/tagall(?: (.*))?"))
 async def tagall(event):
     if not await is_admin(event):
         return
