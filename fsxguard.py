@@ -204,15 +204,15 @@ async def manage_lists(event):
     await msg.delete()
 
 # Handler untuk tagall
-@client.on(events.NewMessage(pattern=r"^/tagall(?: (.*))?"))
+@@client.on(events.NewMessage(pattern=r"^/tagall(?: (.*))?"))
 async def tagall(event):
     if not await is_admin(event):
         return
     chat = await event.get_chat()
     participants = await client.get_participants(chat)
-    text = event.pattern_match.group(1) or "naik sini mek!"
+    text = event.pattern_match.group(1) or "naik sini sayang"
     
-    emojis = ["🍫", "🍦", "🧁", "🍭", "🍿", "🍟", "🍕", "🍔"]
+    emojis = ["🔥", "⚡", "💥", "🎯", "🚀", "🎉"]
     mentions = []
     for user in participants:
         if user.bot:
@@ -221,12 +221,25 @@ async def tagall(event):
         mention = f'<a href="tg://user?id={user.id}">{emoji}</a>'
         mentions.append(mention)
     
-    chunk_size = 6  # Mention 8 anggota per pesan
+    running_tagall[event.chat_id] = True
+    chunk_size = 6
+    
     for i in range(0, len(mentions), chunk_size):
+        if not running_tagall.get(event.chat_id, False):
+            break
         mention_text = " ".join(mentions[i:i+chunk_size])
         await client.send_message(event.chat_id, f"<blockquote>{text}</blockquote>\n\n<blockquote>{mention_text}</blockquote>\n\n<blockquote><b>Powered by @OfficialFreesex</b></blockquote>", parse_mode="html")
-        await asyncio.sleep(3)  # Jeda agar tidak spam
+        await asyncio.sleep(3) #jeda agar tidak spam
+    
+    running_tagall[event.chat_id] = False
+    await event.reply("<blockquote>✅ Selesai mention semua anggota.</blockquote>", parse_mode="html")
 
+@client.on(events.NewMessage(pattern=r"^/stoptagall"))
+async def stoptagall(event):
+    if not await is_admin(event):
+        return
+    running_tagall[event.chat_id] = False
+    await event.reply("<blockquote>🛑 Tagall telah dihentikan.</blockquote>", parse_mode="html")
 
 # Handler utama untuk mendeteksi pesan GCast
 @client.on(events.NewMessage)
