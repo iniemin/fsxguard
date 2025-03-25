@@ -125,6 +125,8 @@ async def help_callback(event):
 <blockquote>/delwhite ʙᴀʟᴀs ᴋᴇ ᴘᴇsᴀɴ ᴀᴛᴀᴜ @username -  ᴍᴇɴɢʜᴀᴘᴜs ᴘᴇɴɢɢᴜɴᴀ ᴅᴀʀɪ ᴡʜɪᴛᴇʟɪsᴛ</blockquote>
 
 <blockquote>/tagall - ᴜɴᴛᴜᴋ ᴍᴇɴᴛɪᴏɴ sᴇᴍᴜᴀ ᴀɴɢɢᴏᴛᴀ ɢʀᴜᴘ</blockquote>
+
+<blockquote>/stoptagall - ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴇɴᴛɪᴋᴀɴ ᴛᴀɢᴀʟʟ</blockquote>
 """, parse_mode="html")
 
 # Handler untuk /ping
@@ -156,6 +158,8 @@ async def help_command(event):
 <blockquote>/delwhite ʙᴀʟᴀs ᴋᴇ ᴘᴇsᴀɴ ᴀᴛᴀᴜ @username -  ᴍᴇɴɢʜᴀᴘᴜs ᴘᴇɴɢɢᴜɴᴀ ᴅᴀʀɪ ᴡʜɪᴛᴇʟɪsᴛ</blockquote>
 
 <blockquote>/tagall - ᴜɴᴛᴜᴋ ᴍᴇɴᴛɪᴏɴ sᴇᴍᴜᴀ ᴀɴɢɢᴏᴛᴀ ɢʀᴜᴘ</blockquote>
+
+<blockquote>/stoptagall - ᴜɴᴛᴜᴋ ᴍᴇɴɢʜᴇɴᴛɪᴋᴀɴ ᴛᴀɢᴀʟʟ</blockquote>
 """
     await event.reply(help_text, parse_mode="html")
 
@@ -234,14 +238,14 @@ async def tagall(event):
         await asyncio.sleep(3) #jeda agar tidak spam
     
     running_tagall[event.chat_id] = False
-    await event.reply("<blockquote>✅ Selesai mention semua anggota.</blockquote>", parse_mode="html")
+    await event.reply("<blockquote>✅ sᴇʟᴇsᴀɪ ᴍᴇɴᴛɪᴏɴ sᴇᴍᴜᴀ ᴀɴɢɢᴏᴛᴀ.</blockquote>", parse_mode="html")
 
 @client.on(events.NewMessage(pattern=r"^/stoptagall"))
 async def stoptagall(event):
     if not await is_admin(event):
         return
     running_tagall[event.chat_id] = False
-    await event.reply("<blockquote>🛑 Tagall telah dihentikan.</blockquote>", parse_mode="html")
+    await event.reply("<blockquote>🛑 ᴛᴀɢᴀʟʟ ᴛᴇʟᴀʜ ᴅɪʜᴇɴᴛɪᴋᴀɴ.</blockquote>", parse_mode="html")
 
 # Handler utama untuk mendeteksi pesan GCast
 @client.on(events.NewMessage)
